@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Banco de Questões — Q&A comentadas (ANAC) + Admin</title>
+<meta name="description" content="Site grátis de questões com respostas comentadas — pesquisar, filtrar, favoritar e editar localmente."/>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<style>
+  :root{
+    --bg:#071227; --card:#08101a; --muted:#9aa7bd; --accent:#06b6d4; --accent-2:#7c3aed;
+    --glass: rgba(255,255,255,0.03); --maxw:1180px; --accent-3:#10b981;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:
+    radial-gradient(1000px 400px at 10% 10%, rgba(124,58,237,0.08), transparent 8%),
+    linear-gradient(180deg,#071227 0%, #051226 60%); color:#e6eef6; -webkit-font-smoothing:antialiased}
+  main{max-width:var(--maxw);margin:26px auto;padding:18px}
+  header{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+  .logo{display:flex;align-items:center;gap:12px}
+  .logo .mark{width:56px;height:56px;border-radius:10px;background:
+    linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-weight:700}
+  h1{font-size:20px;margin:0}
+  p.lead{margin:0;color:var(--muted);font-size:13px}
+  .topright{margin-left:auto;display:flex;gap:8px;align-items:center}
+  .btn{background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:10px;color:inherit;font-size:13px;cursor:pointer}
+  .btn.ghost{background:transparent;border:1px dashed rgba(255,255,255,0.04)}
+  .btn.small{padding:6px 8px;font-size:13px}
+  .controls{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
+  .search{flex:1;min-width:220px;display:flex;gap:8px;align-items:center;background:var(--glass);
+    padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);}
+  .search input{flex:1;background:transparent;border:0;outline:none;color:inherit;font-size:15px}
+  .select{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);
+    padding:8px 10px;border-radius:10px;color:inherit;font-size:14px}
+  .stats{color:var(--muted);font-size:13px;align-self:center}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+  .meta{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+  .tag{background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:8px;font-size:12px;color:var(--muted)}
+  .q{font-weight:600;margin:6px 0 8px}
+  .choices{display:flex;flex-direction:column;gap:6px}
+  .choice{padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);cursor:pointer;text-align:left}
+  .choice.correct{border-color:rgba(34,197,94,0.35);background:linear-gradient(90deg, rgba(34,197,94,0.06), transparent)}
+  .choice.wrong{border-color:rgba(239,68,68,0.25);background:linear-gradient(90deg, rgba(239,68,68,0.03), transparent)}
+  .explain{margin-top:10px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);color:var(--muted);font-size:14px}
+  .card-footer{display:flex;gap:8px;align-items:center;margin-top:10px}
+  .fav{margin-left:auto;opacity:0.95}
+  .smallmuted{color:var(--muted);font-size:13px}
+
+  /* Admin panel */
+  .admin-panel{position:fixed;right:18px;top:80px;width:420px;max-width:92vw;max-height:80vh;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.04);overflow:auto;box-shadow:0 20px 50px rgba(2,6,23,0.6)}
+  .admin-panel h3{margin:0 0 8px 0}
+  .field{display:flex;flex-direction:column;margin-bottom:8px}
+  .field label{font-size:13px;color:var(--muted);margin-bottom:6px}
+  input[type="text"], textarea, select {background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);padding:8px;border-radius:8px;color:inherit}
+  textarea{min-height:80px}
+  .row{display:flex;gap:8px}
+  .mini{font-size:12px;padding:6px 8px}
+
+  footer{max-width:var(--maxw);margin:20px auto;padding:18px;color:var(--muted);font-size:13px;text-align:center}
+  a.ghost{color:var(--accent);text-decoration:none}
+  .hint{color:var(--muted);font-size:13px;margin-top:8px}
+  .kbd{background:rgba(255,255,255,0.03);padding:4px 8px;border-radius:6px;border:1px solid rgba(255,255,255,0.03);font-size:12px}
+  /* focus */
+  .choice:focus, .btn:focus, input:focus, textarea:focus {outline:2px solid rgba(6,182,212,0.12);outline-offset:2px}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="logo">
+      <div class="mark">QA</div>
+      <div>
+        <h1>Banco de Questões — Q&A comentadas</h1>
+        <p class="lead">Questões comentadas para estudo (formato ANAC). Pesquise, filtre, favoritar e administre localmente.</p>
+      </div>
+    </div>
+
+    <div class="topright">
+      <div class="stats" id="stats">0 questões</div>
+      <button id="toggleAdmin" class="btn small">Admin</button>
+      <button id="addSample" class="btn small ghost">+Exemplos</button>
+    </div>
+  </header>
+
+  <section class="controls" aria-label="controles de busca e filtro">
+    <div class="search" role="search" aria-label="Pesquisar perguntas">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M21 21l-4.35-4.35" stroke="#cfeaf4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <input id="qsearch" placeholder="Pesquisar por texto, assunto ou palavra-chave..." />
+    </div>
+
+    <select id="filterTopic" class="select" aria-label="Filtrar por tema">
+      <option value="">Mostrar todos os temas</option>
+    </select>
+
+    <select id="filterType" class="select small" aria-label="Filtrar por tipo">
+      <option value="">Todos</option>
+      <option value="múltipla">Múltipla escolha</option>
+      <option value="dissertativa">Dissertativa</option>
+    </select>
+
+    <button id="clearFav" class="btn small">Limpar favoritos</button>
+    <button id="export" class="btn small">Exportar JSON</button>
+  </section>
+
+  <section id="list" class="grid" aria-live="polite"></section>
+
+  <footer>
+    Local &middot; Sem servidor — publique no GitHub Pages ou Netlify. &nbsp;
+    <a class="ghost" href="#" id="howto">Como publicar</a>
+  </footer>
+</main>
+
+<!-- Admin panel (hidden by default) -->
+<aside class="admin-panel" id="adminPanel" style="display:none" aria-hidden="true">
+  <h3>Painel Admin — Editar banco de questões</h3>
+
+  <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+    <button id="newQ" class="btn mini">Nova questão</button>
+    <button id="saveDB" class="btn mini">Salvar banco</button>
+    <button id="importBtn" class="btn mini ghost">Importar JSON</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" />
+    <button id="clearDB" class="btn mini ghost">Limpar banco</button>
+  </div>
+
+  <div class="hint">Formato interno: <span class="kbd">id, tema, tipo, nivel, enunciado, escolhas[], resposta, comentario</span></div>
+
+  <hr style="border:none;height:8px"/>
+
+  <div id="editorList"></div>
+
+  <hr style="border:none;height:8px"/>
+
+  <div style="display:flex;gap:8px;margin-top:10px">
+    <button id="exportAll" class="btn small">Exportar JSON</button>
+    <button id="mergeImport" class="btn small ghost">Mesclar import</button>
+  </div>
+
+  <div style="margin-top:10px;color:var(--muted);font-size:13px">
+    Observação: os dados são salvos em <strong>localStorage</strong> do navegador. Use export/import para backups.
+  </div>
+</aside>
+
+<script>
+/* -------------------------
+  Banco interno e inicial
+   - persistência: localStorage key QA_DB_V2
+--------------------------*/
+
+const STORAGE_KEY = 'QA_DB_V2';
+const FAV_KEY = 'QA_FAVS_V2';
+
+/* exemplo inicial mínimo (se não houver banco salvo) */
+const DEFAULT_SAMPLE = [
+  {
+    id: "Q001",
+    tema: "Estruturas",
+    tipo: "múltipla",
+    nivel: "Fácil",
+    enunciado: "Quais são os cinco principais estresses que atuam sobre uma aeronave?",
+    escolhas: [
+      {id:"A", txt:"Tensão, compressão, torção, cisalhamento e flexão"},
+      {id:"B", txt:"Tensão, tração, vibração, compressão e calor"},
+      {id:"C", txt:"Tração, cisalhamento, pressão, choque e fricção"},
+      {id:"D", txt:"Compressão, resiliência, torção, resfriamento e flexão"}
+    ],
+    resposta: "A",
+    comentario: "Os cinco estresses clássicos descritos no manual: tensão, compressão, torção, cisalhamento e flexão. Muito comum em questões conceituais."
+  },
+  {
+    id: "Q002",
+    tema: "Materiais",
+    tipo: "múltipla",
+    nivel: "Médio",
+    enunciado: "Qual fluido hidráulico é conhecido por ser à base de éster fosfato e geralmente pigmentado púrpura-claro?",
+    escolhas: [
+      {id:"A", txt:"MIL-H-5606"},
+      {id:"B", txt:"MIL-H-7644"},
+      {id:"C", txt:"SKYDROL"},
+      {id:"D", txt:"Óleo de mamona puro"}
+    ],
+    resposta: "C",
+    comentario: "SKYDROL é a família de fluidos à base de éster fosfato usada em muitas aeronaves a jato. Atenção: incompatibilidade com selos Buna-N."
+  }
+];
+
+let DB = loadDB();
+let QUESTIONS = DB.slice(); // working copy
+let FAVS = loadFavs();
+
+/* ---------- storage helpers ---------- */
+function loadDB(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_SAMPLE, null, 2));
+      return DEFAULT_SAMPLE.slice();
+    }
+    return JSON.parse(raw);
+  } catch(e){
+    console.error('Erro lendo DB:', e);
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_SAMPLE, null, 2));
+    return DEFAULT_SAMPLE.slice();
+  }
+}
+function saveDB(data){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data, null, 2));
+  DB = data.slice();
+  QUESTIONS = DB.slice();
+  renderFilters();
+  renderList();
+}
+function loadFavs(){ try { return JSON.parse(localStorage.getItem(FAV_KEY) || '[]') } catch(e){ return [] } }
+function saveFavs(arr){ localStorage.setItem(FAV_KEY, JSON.stringify(arr)) }
+
+/* ---------- UI elements ---------- */
+const listEl = document.getElementById('list');
+const statsEl = document.getElementById('stats');
+const filterTopic = document.getElementById('filterTopic');
+const qsearch = document.getElementById('qsearch');
+const filterType = document.getElementById('filterType');
+const clearFav = document.getElementById('clearFav');
+const exportBtn = document.getElementById('export');
+const addSampleBtn = document.getElementById('addSample');
+const howto = document.getElementById('howto');
+
+const adminPanel = document.getElementById('adminPanel');
+const toggleAdmin = document.getElementById('toggleAdmin');
+const editorList = document.getElementById('editorList');
+const newQ = document.getElementById('newQ');
+const saveDBBtn = document.getElementById('saveDB');
+const importBtn = document.getElementById('importBtn');
+const importFile = document.getElementById('importFile');
+const clearDB = document.getElementById('clearDB');
+const exportAll = document.getElementById('exportAll');
+const mergeImport = document.getElementById('mergeImport');
+
+/* ---------- render helpers ---------- */
+function uniqueTopics(data){
+  const s = new Set(data.map(d=>d.tema||'Geral'));
+  return Array.from(s).sort();
+}
+function renderFilters(){
+  const topics = uniqueTopics(QUESTIONS);
+  filterTopic.innerHTML = '<option value="">Mostrar todos os temas</option>' + topics.map(t=>`<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join('');
+  statsEl.textContent = `${QUESTIONS.length} questões • ${FAVS.length} favoritas`;
+}
+
+/* ---------- main list rendering ---------- */
+function renderList(){
+  listEl.innerHTML = '';
+  const q = qsearch.value.trim().toLowerCase();
+  const topic = filterTopic.value;
+  const type = filterType.value;
+  const favs = FAVS;
+
+  const filtered = QUESTIONS.filter(item=>{
+    if(topic && item.tema !== topic) return false;
+    if(type && item.tipo !== type) return false;
+    if(q){
+      const hay = (item.enunciado + ' ' + item.comentario + ' ' + (item.tema||'')).toLowerCase();
+      if(hay.includes(q)) return true;
+      if(item.escolhas && item.escolhas.some(c=>c.txt.toLowerCase().includes(q))) return true;
+      return false;
+    }
+    return true;
+  });
+
+  if(filtered.length === 0){
+    listEl.innerHTML = `<div style="grid-column:1/-1;padding:18px;border-radius:12px;background:rgba(255,255,255,0.02);color:var(--muted)">Nenhuma questão encontrada.</div>`;
+  }
+
+  filtered.forEach(item=>{
+    const card = document.createElement('article');
+    card.className='card';
+    card.setAttribute('tabindex','0');
+
+    const meta = document.createElement('div'); meta.className='meta';
+    meta.innerHTML = `<div class="tag">${escapeHtml(item.tema||'Geral')}</div>
+      <div class="smallmuted">${escapeHtml(item.tipo || '—')} · ${escapeHtml(item.nivel || '')}</div>`;
+    card.appendChild(meta);
+
+    const qh = document.createElement('div'); qh.className='q'; qh.textContent = `${item.id} — ${item.enunciado}`;
+    card.appendChild(qh);
+
+    const choicesWrap = document.createElement('div'); choicesWrap.className='choices';
+    if(item.tipo === 'múltipla' && item.escolhas){
+      item.escolhas.forEach(ch=>{
+        const btn = document.createElement('button');
+        btn.className='choice';
+        btn.innerHTML = `<strong>${escapeHtml(ch.id)}</strong>. ${escapeHtml(ch.txt)}`;
+        btn.addEventListener('click', ()=>{
+          Array.from(choicesWrap.children).forEach(c=>{
+            c.classList.remove('correct','wrong');
+            c.disabled = true;
+          });
+          if(ch.id === item.resposta){
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('wrong');
+            const correctBtn = Array.from(choicesWrap.children).find(c => c.innerText.trim().startsWith(item.resposta));
+            if(correctBtn) correctBtn.classList.add('correct');
+          }
+        });
+        choicesWrap.appendChild(btn);
+      });
+    } else {
+      const txt = document.createElement('div'); txt.className='choice';
+      txt.textContent = 'Resposta descritiva — reveja o comentário para a solução.';
+      choicesWrap.appendChild(txt);
+    }
+    card.appendChild(choicesWrap);
+
+    const explanation = document.createElement('div');
+    explanation.className='explain';
+    explanation.style.display = 'none';
+    explanation.innerHTML = `<div style="font-weight:600;margin-bottom:6px">Resposta comentada</div>
+      <div>${escapeHtml(item.comentario||'Sem comentário disponível')}</div>`;
+    card.appendChild(explanation);
+
+    const footer = document.createElement('div'); footer.className='card-footer';
+    const btnExplain = document.createElement('button');
+    btnExplain.className='btn small';
+    btnExplain.textContent = 'Mostrar comentário';
+    btnExplain.addEventListener('click', ()=>{
+      const show = explanation.style.display === 'block';
+      explanation.style.display = show ? 'none' : 'block';
+      btnExplain.textContent = show ? 'Mostrar comentário' : 'Ocultar comentário';
+    });
+    footer.appendChild(btnExplain);
+
+    const favBtn = document.createElement('button');
+    favBtn.className='btn small fav';
+    favBtn.textContent = favs.includes(item.id) ? '★ Favorito' : '☆ Favoritar';
+    favBtn.setAttribute('aria-pressed', favs.includes(item.id));
+    favBtn.addEventListener('click', ()=>{
+      if(FAVS.includes(item.id)) FAVS = FAVS.filter(x=>x!==item.id);
+      else FAVS.push(item.id);
+      saveFavs(FAVS);
+      favBtn.textContent = FAVS.includes(item.id) ? '★ Favorito' : '☆ Favoritar';
+      favBtn.setAttribute('aria-pressed', FAVS.includes(item.id));
+      statsEl.textContent = `${QUESTIONS.length} questões • ${FAVS.length} favoritas`;
+    });
+    footer.appendChild(favBtn);
+
+    card.appendChild(footer);
+    listEl.appendChild(card);
+  });
+
+  statsEl.textContent = `${QUESTIONS.length} questões • ${FAVS.length} favoritas`;
+}
+
+/* ---------- admin rendering (editor list) ---------- */
+function renderEditor(){
+  editorList.innerHTML = '';
+  if(DB.length === 0){
+    editorList.innerHTML = '<div style="color:var(--muted)">Banco vazio — clique em "Nova questão" ou importe JSON.</div>';
+    return;
+  }
+  DB.forEach((item, idx) => {
+    const box = document.createElement('div');
+    box.style.border = '1px solid rgba(255,255,255,0.03)';
+    box.style.padding = '8px';
+    box.style.borderRadius = '8px';
+    box.style.marginBottom = '8px';
+    // header row
+    const hdr = document.createElement('div');
+    hdr.style.display = 'flex'; hdr.style.gap = '8px'; hdr.style.alignItems = 'center';
+    hdr.innerHTML = `<strong style="min-width:80px">${escapeHtml(item.id||'Q?')}</strong>
+      <div style="flex:1">${escapeHtml(item.enunciado||'Sem enunciado')}</div>`;
+    const btnEdit = document.createElement('button'); btnEdit.className='btn mini'; btnEdit.textContent='Editar';
+    const btnDel = document.createElement('button'); btnDel.className='btn mini ghost'; btnDel.textContent='Apagar';
+    hdr.appendChild(btnEdit); hdr.appendChild(btnDel);
+    box.appendChild(hdr);
+
+    // detail (hidden by default)
+    const detail = document.createElement('div'); detail.style.marginTop='8px'; detail.style.display='none';
+    detail.innerHTML = `
+      <div class="field"><label>ID</label><input type="text" class="fld-id" value="${escapeHtml(item.id||'')}" /></div>
+      <div class="field"><label>Tema</label><input type="text" class="fld-tema" value="${escapeHtml(item.tema||'')}" /></div>
+      <div class="field"><label>Tipo</label>
+        <select class="fld-tipo">
+          <option ${item.tipo==='múltipla'?'selected':''} value="múltipla">múltipla</option>
+          <option ${item.tipo==='dissertativa'?'selected':''} value="dissertativa">dissertativa</option>
+        </select>
+      </div>
+      <div class="field"><label>Nível</label><input type="text" class="fld-nivel" value="${escapeHtml(item.nivel||'')}" /></div>
+      <div class="field"><label>Enunciado</label><textarea class="fld-enunciado">${escapeHtml(item.enunciado||'')}</textarea></div>
+      <div class="field"><label>Escolhas (JSON array de {id,txt})</label><textarea class="fld-escolhas">${escapeHtml(JSON.stringify(item.escolhas||[], null, 2))}</textarea></div>
+      <div class="field"><label>Resposta (ex: A)</label><input type="text" class="fld-resp" value="${escapeHtml(item.resposta||'')}" /></div>
+      <div class="field"><label>Comentário</label><textarea class="fld-com">${escapeHtml(item.comentario||'')}</textarea></div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn sb-save">Salvar questão</button>
+        <button class="btn sb-cancel ghost">Fechar</button>
+      </div>
+    `;
+    box.appendChild(detail);
+
+    // events
+    btnEdit.addEventListener('click', ()=>{ detail.style.display='block'; });
+    btnDel.addEventListener('click', ()=>{
+      if(!confirm('Apagar esta questão?')) return;
+      DB.splice(idx,1); saveDB(DB); renderEditor();
+    });
+    detail.querySelector('.sb-cancel').addEventListener('click', ()=>{
+      detail.style.display='none';
+    });
+    detail.querySelector('.sb-save').addEventListener('click', ()=>{
+      const newId = detail.querySelector('.fld-id').value.trim() || `Q${Math.floor(Math.random()*10000)}`;
+      const tema = detail.querySelector('.fld-tema').value.trim();
+      const tipo = detail.querySelector('.fld-tipo').value;
+      const nivel = detail.querySelector('.fld-nivel').value.trim();
+      const enunciado = detail.querySelector('.fld-enunciado').value.trim();
+      let escolhas = [];
+      try {
+        escolhas = JSON.parse(detail.querySelector('.fld-escolhas').value || '[]');
+        if(!Array.isArray(escolhas)) throw new Error('Escolhas deve ser array');
+      } catch(err){
+        alert('JSON inválido em Escolhas: ' + err.message);
+        return;
+      }
+      const resposta = detail.querySelector('.fld-resp').value.trim();
+      const comentario = detail.querySelector('.fld-com').value.trim();
+      const newObj = { id: newId, tema, tipo, nivel, enunciado, escolhas, resposta, comentario };
+      DB[idx] = newObj;
+      saveDB(DB);
+      renderEditor();
+    });
+
+    editorList.appendChild(box);
+  });
+}
+
+/* ---------- admin actions ---------- */
+newQ.addEventListener('click', ()=>{
+  const nid = `Q${Math.floor(100+Math.random()*9000)}`;
+  const qobj = {
+    id: nid,
+    tema: "Geral",
+    tipo: "múltipla",
+    nivel: "Médio",
+    enunciado: "Novo enunciado...",
+    escolhas: [{id:"A",txt:"Opção A"},{id:"B",txt:"Opção B"}],
+    resposta: "A",
+    comentario: "Comentário..."
+  };
+  DB.unshift(qobj);
+  saveDB(DB);
+  renderEditor();
+  // scroll to top of admin for visibility
+  adminPanel.scrollTop = 0;
+});
+
+saveDBBtn.addEventListener('click', ()=>{
+  saveDB(DB);
+  alert('Banco salvo em localStorage.');
+});
+
+clearDB.addEventListener('click', ()=>{
+  if(!confirm('Apagar todo o banco local (localStorage)?')) return;
+  DB = []; saveDB(DB); renderEditor();
+});
+
+exportAll.addEventListener('click', ()=>{
+  const data = JSON.stringify(DB, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'questoes_export.json';
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+});
+
+/* import */
+importBtn.addEventListener('click', ()=> importFile.click());
+importFile.addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    try{
+      const parsed = JSON.parse(ev.target.result);
+      if(!Array.isArray(parsed)) throw new Error('Arquivo JSON deve conter um array de questões');
+      if(!confirm('Substituir banco local pelo arquivo importado? (OK = substituir / Cancel = mesclar)')) {
+        // merge
+        const merged = DB.concat(parsed);
+        saveDB(merged);
+        alert('Banco mesclado e salvo.');
+        return;
+      }
+      saveDB(parsed);
+      alert('Importação concluída e salva.');
+      renderEditor();
+    } catch(err){
+      alert('Erro ao importar JSON: ' + err.message);
+    }
+  };
+  reader.readAsText(file,'utf-8');
+  importFile.value = '';
+});
+
+mergeImport.addEventListener('click', ()=>{
+  importFile.click();
+});
+
+/* ---------- general UI events ---------- */
+qsearch.addEventListener('input', ()=> renderList());
+filterTopic.addEventListener('change', ()=> renderList());
+filterType.addEventListener('change', ()=> renderList());
+clearFav.addEventListener('click', ()=> { FAVS = []; saveFavs(FAVS); renderList(); });
+
+exportBtn.addEventListener('click', ()=>{
+  const data = JSON.stringify(DB, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'questoes.json';
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+});
+
+addSampleBtn.addEventListener('click', ()=>{
+  const base = [
+    {
+      id: `Q${100+DB.length}`,
+      tema: "Inspeção",
+      tipo: "múltipla",
+      nivel: "Fácil",
+      enunciado: "Ao inspecionar rebites, qual é um sinal comum de falha?",
+      escolhas: [
+        {id:"A",txt:"Superfície lisa"},
+        {id:"B",txt:"Fendas ao redor da cabeça do rebite"},
+        {id:"C",txt:"Pintura intacta"},
+        {id:"D",txt:"Aparência brilhante"}
+      ],
+      resposta: "B",
+      comentario: "Fissuras ao redor do rebite indicam fadiga ou sobrecarga."
+    },
+    {
+      id: `Q${101+DB.length}`,
+      tema: "Trem de Pouso",
+      tipo: "múltipla",
+      nivel: "Médio",
+      enunciado: "Componente que absorve choque no trem de pouso:",
+      escolhas: [
+        {id:"A",txt:"Longarina"},
+        {id:"B",txt:"Amortecedor oleo/gás"},
+        {id:"C",txt:"Nacelle"},
+        {id:"D",txt:"Carenagem"}
+      ],
+      resposta: "B",
+      comentario: "Amortecedores reduzem o 'bounce' e dissipam energia no pouso."
+    },
+    {
+      id: `Q${102+DB.length}`,
+      tema: "Soldagem",
+      tipo: "múltipla",
+      nivel: "Difícil",
+      enunciado: "Problema comum na soldagem de alumínio:",
+      escolhas: [
+        {id:"A",txt:"Oxidação e porosidade"},
+        {id:"B",txt:"Excesso de ferro"},
+        {id:"C",txt:"Fusão perfeita"},
+        {id:"D",txt:"Cor vermelha"}
+      ],
+      resposta: "A",
+      comentario: "Alumínio oxida rapidamente, causando porosidade se não for limpo."
+    }
+  ];
+  DB = base.concat(DB);
+  saveDB(DB);
+  renderEditor();
+});
+
+/* Admin toggle */
+toggleAdmin.addEventListener('click', ()=>{
+  if(adminPanel.style.display === 'none' || adminPanel.style.display === ''){
+    adminPanel.style.display = 'block'; adminPanel.setAttribute('aria-hidden','false');
+    renderEditor();
+    adminPanel.scrollTop = 0;
+  } else {
+    adminPanel.style.display = 'none'; adminPanel.setAttribute('aria-hidden','true');
+  }
+});
+
+/* howto */
+howto.addEventListener('click', (e)=>{
+  e.preventDefault();
+  alert('Publicar: crie repositório no GitHub e envie este index.html; ative GitHub Pages (branch main, pasta root). Ou use Netlify Drop (arraste o arquivo).');
+});
+
+/* ---------- utils ---------- */
+function escapeHtml(str){ if(!str) return ''; return (''+str).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+
+/* ---------- init render ---------- */
+function init(){
+  // ensure DB loaded
+  QUESTIONS = DB.slice();
+  FAVS = loadFavs();
+  renderFilters();
+  renderList();
+  // initial admin closed
+  adminPanel.style.display = 'none';
+}
+init();
+
+/* ---------- save helpers ---------- */
+function saveFavs(arr){ localStorage.setItem(FAV_KEY, JSON.stringify(arr)); FAVS = arr.slice(); renderList(); }
+
+/* ---------- expose saveDB for internal use ---------- */
+function saveDBLocal(data){
+  saveDB(data);
+  renderEditor();
+}
+
+/* ---------- make saveDB accessible globally in case of console use ---------- */
+window.QA = {
+  saveDB: saveDBLocal,
+  loadDB: ()=> JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'),
+  export: ()=> { exportAll.click(); }
+};
+
+</script>
+</body>
+</html>
