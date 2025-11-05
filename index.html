@@ -3,281 +3,1154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questões de Aeronáutica</title>
+    <title>Questões de Célula de Aeronaves</title>
     <style>
+        /* Estilos Básicos e Responsivos */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
             color: #333;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
         }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #3498db;
+        .quiz-container {
+            max-width: 850px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .chapter-title {
+            font-size: 1.8em;
+            color: #0056b3;
+            border-bottom: 3px solid #0056b3;
             padding-bottom: 10px;
+            margin-bottom: 30px;
+            text-align: center;
         }
-        h2 {
-            color: #2980b9;
-            margin-top: 40px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #bdc3c7;
-        }
-        .question-container {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            padding: 20px;
+        .question-block {
             margin-bottom: 25px;
-            transition: transform 0.2s;
-        }
-        .question-container:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        .question-number {
-            font-weight: bold;
-            color: #e74c3c;
-            margin-bottom: 10px;
-            font-size: 1.1em;
+            padding: 18px;
+            border: 1px solid #ddd;
+            border-left: 5px solid #00a877;
+            border-radius: 8px;
+            background-color: #fafafa;
         }
         .question-text {
+            font-weight: 700;
+            font-size: 1.15em;
             margin-bottom: 15px;
-            font-weight: 500;
+            line-height: 1.4;
         }
-        .options {
-            margin-left: 20px;
-            margin-bottom: 15px;
+        .options label {
+            display: block;
+            padding: 8px 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
         }
-        .answer {
-            background-color: #e8f6f3;
-            padding: 12px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            border-left: 4px solid #16a085;
+        .options label:hover {
+            background-color: #e9e9e9;
+        }
+        .options input[type="radio"] {
+            margin-right: 12px;
+        }
+        .answer-info {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 2px dashed #eee;
+        }
+        .correct-answer {
+            color: #00a877;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
         }
         .comment {
-            background-color: #fef9e7;
-            padding: 12px;
-            border-radius: 5px;
             font-style: italic;
-            border-left: 4px solid #f39c12;
+            font-size: 0.9em;
+            color: #555;
+            padding: 5px 0;
+            line-height: 1.3;
         }
-        .chapter-nav {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin: 30px 0;
-        }
-        .chapter-nav a {
-            display: inline-block;
-            padding: 8px 15px;
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        .chapter-nav a:hover {
-            background-color: #2980b9;
-        }
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #2c3e50;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 50%;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
+
+        /* Responsividade para telas menores */
+        @media (max-width: 650px) {
+            .quiz-container {
+                margin: 10px;
+                padding: 15px;
             }
-            .question-container {
+            .chapter-title {
+                font-size: 1.5em;
+            }
+            .question-text {
+                font-size: 1em;
+            }
+            .question-block {
                 padding: 15px;
             }
         }
     </style>
 </head>
 <body>
-    <h1>Questões de Aeronáutica</h1>
-    
-    <div class="chapter-nav">
-        <a href="#capitulo2">Capítulo 2</a>
-        <a href="#capitulo3">Capítulo 3</a>
-        <a href="#capitulo4">Capítulo 4</a>
-        <a href="#capitulo5">Capítulo 5</a>
-        <a href="#capitulo6">Capítulo 6</a>
-        <a href="#capitulo7">Capítulo 7</a>
-        <a href="#capitulo8">Capítulo 8</a>
-        <a href="#capitulo1">Capítulo 1</a>
-    </div>
 
-    <h2 id="capitulo2">QUESTÕES CAPÍTULO 2 - MONTAGEM E ALINHAMENTO</h2>
-    
-    <div class="question-container">
-        <div class="question-number">1. Qual é o principal objetivo do alinhamento estrutural em aeronaves?</div>
-        <div class="question-text">
-            a) Melhorar a aparência estética<br>
-            b) Reduzir o consumo de combustível<br>
-            c) Garantir características aerodinâmicas adequadas<br>
-            d) Facilitar a montagem das superfícies
+    <div class="quiz-container">
+        
+        <h1 class="chapter-title">QUESTÕES CAPÍTULO 2 - MONTAGEM E ALINHAMENTO</h1>
+
+        <div class="question-block">
+            <div class="question-text">1. Qual é o principal objetivo do alinhamento estrutural em aeronaves?</div>
+            <div class="options">
+                <label><input type="radio" name="q1" value="a"> a) Melhorar a aparência estética</label>
+                <label><input type="radio" name="q1" value="b"> b) Reduzir o consumo de combustível</label>
+                <label><input type="radio" name="q1" value="c"> c) Garantir características aerodinâmicas adequadas</label>
+                <label><input type="radio" name="q1" value="d"> d) Facilitar a montagem das superfícies</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Garantir características aerodinâmicas adequadas</span>
+                <span class="comment">Comentário: O alinhamento assegura que todos os componentes estejam posicionados conforme projetado, mantendo o desempenho aerodinâmico e a segurança de voo.</span>
+            </div>
         </div>
-        <div class="answer"><strong>Resposta:</strong> c) Garantir características aerodinâmicas adequadas</div>
-        <div class="comment"><strong>Comentário:</strong> O alinhamento assegura que todos os componentes estejam posicionados conforme projetado, mantendo o desempenho aerodinâmico e a segurança de voo.</div>
-    </div>
-
-    <div class="question-container">
-        <div class="question-number">2. Qual tipo de sistema de controle é mais tolerante a deflexões estruturais?</div>
-        <div class="question-text">
-            a) Sistema por hastes rígidas<br>
-            b) Sistema por tubos de torque<br>
-            c) Sistema por cabos<br>
-            d) Sistema hidráulico puro
+        
+        <div class="question-block">
+            <div class="question-text">2. Qual tipo de sistema de controle é mais tolerante a deflexões estruturais?</div>
+            <div class="options">
+                <label><input type="radio" name="q2" value="a"> a) Sistema por hastes rígidas</label>
+                <label><input type="radio" name="q2" value="b"> b) Sistema por tubos de torque</label>
+                <label><input type="radio" name="q2" value="c"> c) Sistema por cabos</label>
+                <label><input type="radio" name="q2" value="d"> d) Sistema hidráulico puro</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Sistema por cabos</span>
+                <span class="comment">Comentário: Os cabos flexíveis podem acomodar pequenas deflexões da estrutura sem comprometer a operação do sistema de controle.</span>
+            </div>
         </div>
-        <div class="answer"><strong>Resposta:</strong> c) Sistema por cabos</div>
-        <div class="comment"><strong>Comentário:</strong> Os cabos flexíveis podem acomodar pequenas deflexões da estrutura sem comprometer a operação do sistema de controle.</div>
-    </div>
 
-    <!-- Continuar com as demais questões do Capítulo 2 -->
-    <!-- Questões 3 a 20 do Capítulo 2 aqui -->
-
-    <h2 id="capitulo3">QUESTÕES CAPÍTULO 3 - ENTELAGEM</h2>
-    
-    <div class="question-container">
-        <div class="question-number">1. Qual tecido possui resistência mínima de 80 lbs/pol na urdidura e trama?</div>
-        <div class="question-text">
-            a) Algodão Tipo A<br>
-            b) Linho padrão<br>
-            c) Dacron médio peso<br>
-            d) Fibra de vidro
+        <div class="question-block">
+            <div class="question-text">3. Durante a inspeção de cabos de controle, qual método é utilizado para detectar rupturas de fios?</div>
+            <div class="options">
+                <label><input type="radio" name="q3" value="a"> a) Inspeção com ultrassom</label>
+                <label><input type="radio" name="q3" value="b"> b) Técnica do pano</label>
+                <label><input type="radio" name="q3" value="c"> c) Medição com paquímetro</label>
+                <label><input type="radio" name="q3" value="d"> d) Teste de carga estática</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Técnica do pano</span>
+                <span class="comment">Comentário: Um trapo é passado ao longo do cabo; se ficar preso, indica provável ruptura de fios que estão se projetando.</span>
+            </div>
         </div>
-        <div class="answer"><strong>Resposta:</strong> a) Algodão Tipo A</div>
-        <div class="comment"><strong>Comentário:</strong> O tecido de algodão Tipo A mercerizado possui resistência mínima de 80 lbs/pol em ambas as direções, conforme especificação AMS 3806.</div>
-    </div>
 
-    <!-- Continuar com as demais questões do Capítulo 3 -->
-    <!-- Questões 2 a 100 do Capítulo 3 aqui -->
-
-    <h2 id="capitulo4">QUESTÕES CAPÍTULO 4 - PINTURA E ACABAMENTO</h2>
-    
-    <div class="question-container">
-        <div class="question-number">1. Qual a função principal dos materiais de acabamento em aeronaves?</div>
-        <div class="question-text">
-            a) Apenas embelezamento<br>
-            b) Proteção contra corrosão e intempéries<br>
-            c) Redução de peso<br>
-            d) Aumento da velocidade
+        <div class="question-block">
+            <div class="question-text">4. O que indica a presença de corrosão interna em cabos de controle?</div>
+            <div class="options">
+                <label><input type="radio" name="q4" value="a"> a) Mudança na cor externa</label>
+                <label><input type="radio" name="q4" value="b"> b) Endurecimento do cabo</label>
+                <label><input type="radio" name="q4" value="c"> c) Necessidade de substituição imediata</label>
+                <label><input type="radio" name="q4" value="d"> d) Apenas requer limpeza superficial</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Necessidade de substituição imediata</span>
+                <span class="comment">Comentário: A corrosão interna compromete a resistência do cabo e não pode ser remediada com limpeza, exigindo substituição.</span>
+            </div>
         </div>
-        <div class="answer"><strong>Resposta:</strong> b) Proteção contra corrosão e intempéries</div>
-        <div class="comment"><strong>Comentário:</strong> O acabamento protege a estrutura contra corrosão, UV e condições ambientais, além de proporcionar acabamento aerodinâmico.</div>
-    </div>
 
-    <!-- Continuar com as demais questões do Capítulo 4 -->
-    <!-- Questões 2 a 100 do Capítulo 4 aqui -->
-
-    <h2 id="capitulo5">QUESTÕES CAPÍTULO 5 - REPAROS ESTRUTURAIS EM AERONAVES</h2>
-    
-    <div class="question-container">
-        <div class="question-number">1. Qual é o princípio básico para reparos em chapas de metal?</div>
-        <div class="question-text">
-            a) Restaurar a resistência original<br>
-            b) Apenas vedar a área danificada<br>
-            c) Reduzir o peso da estrutura<br>
-            d) Melhorar a aparência estética
+        <div class="question-block">
+            <div class="question-text">5. Qual a função principal dos esticadores no sistema de cabos?</div>
+            <div class="options">
+                <label><input type="radio" name="q5" value="a"> a) Isolar vibrações</label>
+                <label><input type="radio" name="q5" value="b"> b) Compensar variações térmicas</label>
+                <label><input type="radio" name="q5" value="c"> c) Ajustar a tensão dos cabos</label>
+                <label><input type="radio" name="q5" value="d"> d) Prevenir corrosão</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Ajustar a tensão dos cabos</span>
+                <span class="comment">Comentário: Os esticadores possuem roscas direita e esquerda para permitir ajuste simétrico da tensão.</span>
+            </div>
         </div>
-        <div class="answer"><strong>Resposta:</strong> a) Restaurar a resistência original</div>
-        <div class="comment"><strong>Comentário:</strong> Reparos devem devolver a estrutura à sua condição original de resistência e integridade.</div>
-    </div>
 
-    <!-- Continuar com as demais questões do Capítulo 5 -->
-    <!-- Questões 2 a 100 do Capítulo 5 aqui -->
-
-    <h2 id="capitulo6">QUESTÕES CAPÍTULO 6 - SOLDAGEM DE AERONAVES</h2>
-    
-    <div class="question-container">
-        <div class="question-number">1. Qual é o principal objetivo da soldagem em aeronaves?</div>
-        <div class="question-text">
-            a) Reparar componentes estruturais danificados<br>
-            b) Apenas unir componentes não estruturais<br>
-            c) Reduzir o peso das estruturas<br>
-            d) Melhorar a aparência estética
+        <div class="question-block">
+            <div class="question-text">6. Qual o ângulo máximo que os guias de cabos podem desviar da linha reta?</div>
+            <div class="options">
+                <label><input type="radio" name="q6" value="a"> a) 1 grau</label>
+                <label><input type="radio" name="q6" value="b"> b) 3 graus</label>
+                <label><input type="radio" name="q6" value="c"> c) 5 graus</label>
+                <label><input type="radio" name="q6" value="d"> d) 10 graus</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) 3 graus</span>
+                <span class="comment">Comentário: Guias nunca devem alterar o alinhamento do cabo mais que 3 graus da linha reta para evitar desgaste excessivo.</span>
+            </div>
         </div>
-        <div class="answer"><strong>Resposta:</strong> a) Reparar componentes estruturais danificados</div>
-        <div class="comment"><strong>Comentário:</strong> A soldagem é utilizada para reparar e fabricar componentes estruturais críticos em aeronaves.</div>
-    </div>
 
-    <!-- Continuar com as demais questões do Capítulo 6 -->
-    <!-- Questões 2 a 100 do Capítulo 6 aqui -->
-
-    <h2 id="capitulo7">QUESTÕES CAPÍTULO 7 - PROTEÇÃO CONTRA CHUVA E GELO</h2>
-    
-    <div class="question-container">
-        <div class="question-number">1. Qual é o principal objetivo dos sistemas de proteção contra gelo em aeronaves?</div>
-        <div class="question-text">
-            a) Manter as superfícies aerodinâmicas livres de gelo<br>
-            b) Melhorar a eficiência do combustível<br>
-            c) Reduzir o arrasto aerodinâmico<br>
-            d) Aumentar a velocidade de cruzeiro
+        <div class="question-block">
+            <div class="question-text">7. Como devem ser os rolamentos das roldanas em sistemas de controle?</div>
+            <div class="options">
+                <label><input type="radio" name="q7" value="a"> a) Lubrificados periodicamente</label>
+                <label><input type="radio" name="q7" value="b"> b) Selados na fabricação</label>
+                <label><input type="radio" name="q7" value="c"> c) Substituídos a cada 100 horas</label>
+                <label><input type="radio" name="q7" value="d"> d) Inspecionados com ultrassom</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Selados na fabricação</span>
+                <span class="comment">Comentário: Rolamentos selados não requerem lubrificação adicional além da feita na fabricação.</span>
+            </div>
         </div>
-        <div class="answer"><strong>Resposta:</strong> a) Manter as superfícies aerodinâmicas livres de gelo</div>
-        <div class="comment"><strong>Comentário:</strong> O acúmulo de gelo altera o perfil aerodinâmico e pode comprometer a segurança de voo.</div>
-    </div>
 
-    <!-- Continuar com as demais questões do Capítulo 7 -->
-    <!-- Questões 2 a 100 do Capítulo 7 aqui -->
-
-    <h2 id="capitulo8">QUESTÕES CAPÍTULO 8 - SISTEMAS HIDRÁULICOS E PNEUMÁTICOS</h2>
-    
-    <div class="question-container">
-        <div class="question-number">1. Qual é a principal função dos sistemas hidráulicos em aeronaves?</div>
-        <div class="question-text">
-            a) Transmitir força através de fluidos sob pressão<br>
-            b) Gerar energia elétrica<br>
-            c) Controlar a temperatura da cabine<br>
-            d) Fornecer combustível aos motores
+        <div class="question-block">
+            <div class="question-text">8. O que são hastes de comando no sistema de controle?</div>
+            <div class="options">
+                <label><input type="radio" name="q8" value="a"> a) Cabos flexíveis de aço</label>
+                <label><input type="radio" name="q8" value="b"> b) Tubos rígidos de transmissão</label>
+                <label><input type="radio" name="q8" value="c"> c) Elementos de comando hidráulico</label>
+                <label><input type="radio" name="q8" value="d"> d) Conexões de puxa-empurra</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: d) Conexões de puxa-empurra</span>
+                <span class="comment">Comentário: Hastes de comando transmitem movimento linear nos sistemas de controle.</span>
+            </div>
         </div>
-        <div class="answer"><strong>Resposta:</strong> a) Transmitir força através de fluidos sob pressão</div>
-        <div class="comment"><strong>Comentário:</strong> Sistemas hidráulicos convertem energia mecânica em energia hidráulica para acionar diversos componentes.</div>
-    </div>
 
-    <!-- Continuar com as demais questões do Capítulo 8 -->
-    <!-- Questões 2 a 100 do Capítulo 8 aqui -->
-
-    <h2 id="capitulo1">QUESTÕES CAPÍTULO 1 - ESTRUTURAS DE AERONAVES</h2>
-    
-    <div class="question-container">
-        <div class="question-number">1. Quais são os cinco principais estresses estruturais atuantes em uma aeronave?</div>
-        <div class="question-text">
-            a) Tração, flexão, torção, ruptura e fadiga<br>
-            b) Tensão, compressão, torção, cisalhamento e flexão<br>
-            c) Vibração, impacto, corrosão, fadiga e flambagem<br>
-            d) Torção, tração, dobra, ruptura e desgaste
+        <div class="question-block">
+            <div class="question-text">9. Qual característica as hastes de comando devem ter quando instaladas?</div>
+            <div class="options">
+                <label><input type="radio" name="q9" value="a"> a) Levemente curvadas</label>
+                <label><input type="radio" name="q9" value="b"> b) Perfeitamente retas</label>
+                <label><input type="radio" name="q9" value="c"> c) Com folga angular</label>
+                <label><input type="radio" name="q9" value="d"> d) Flexíveis</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Perfeitamente retas</span>
+                <span class="comment">Comentário: Devem estar perfeitamente retas a menos que projetadas de outra forma.</span>
+            </div>
         </div>
-        <div class="answer"><strong>Resposta:</strong> b) Tensão, compressão, torção, cisalhamento e flexão</div>
-        <div class="comment"><strong>Comentário:</strong> Conforme figura 1-1 do manual, os cinco estresses são: tensão, compressão, torção, cisalhamento e flexão.</div>
+
+        <div class="question-block">
+            <div class="question-text">10. O que previne o afrouxamento das hastes de comando após ajuste?</div>
+            <div class="options">
+                <label><input type="radio" name="q10" value="a"> a) Soldagem pontual</label>
+                <label><input type="radio" name="q10" value="b"> b) Cola de retenção</label>
+                <label><input type="radio" name="q10" value="c"> c) Contrapinos</label>
+                <label><input type="radio" name="q10" value="d"> d) Contraporcas</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: d) Contraporcas</span>
+                <span class="comment">Comentário: Contraporcas apertadas previnem que as hastes ou esticadores afrouxem.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">11. Qual a função dos tubos de torque no sistema de controle?</div>
+            <div class="options">
+                <label><input type="radio" name="q11" value="a"> a) Transmitir movimento linear</label>
+                <label><input type="radio" name="q11" value="b"> b) Absorver vibrações</label>
+                <label><input type="radio" name="q11" value="c"> c) Transmitir movimento angular/torção</label>
+                <label><input type="radio" name="q11" value="d"> d) Reduzir folgas</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Transmitir movimento angular/torção</span>
+                <span class="comment">Comentário: São usados quando é necessário movimento angular ou de torção.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">12. O que são batentes de sobrepujamento?</div>
+            <div class="options">
+                <label><input type="radio" name="q12" value="a"> a) Limitam o curso normal</label>
+                <label><input type="radio" name="q12" value="b"> b) Previnem danos em manobras violentas</label>
+                <label><input type="radio" name="q12" value="c"> c) Ajustam a neutralidade</label>
+                <label><input type="radio" name="q12" value="d"> d) Controlam a taxa de movimento</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Previnem danos em manobras violentas</span>
+                <span class="comment">Comentário: Atuam como segurança quando os controles são movidos além dos limites normais.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">13. Onde estão normalmente localizados os batentes que funcionam como limite real?</div>
+            <div class="options">
+                <label><input type="radio" name="q13" value="a"> a) Nos comandos da cabine</label>
+                <label><input type="radio" name="q13" value="b"> b) Nas superfícies de controle</label>
+                <label><input type="radio" name="q13" value="c"> c) Nos actuadores hidráulicos</label>
+                <label><input type="radio" name="q13" value="d"> d) Nos cabos de comando</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Nas superfícies de controle</span>
+                <span class="comment">Comentário: Normalmente realizam a função de limite real de parada.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">14. Qual a função dos amortecedores de superfície de controle?</div>
+            <div class="options">
+                <label><input type="radio" name="q14" value="a"> a) Melhorar a resposta de controle</label>
+                <label><input type="radio" name="q14" value="b"> b) Reduzir esforços do piloto</label>
+                <label><input type="radio" name="q14" value="c"> c) Proteger contra rajadas de vento</label>
+                <label><input type="radio" name="q14" value="d"> d) Aumentar a taxa de rolagem</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Proteger contra rajadas de vento</span>
+                <span class="comment">Comentário: Controlam hidraulicamente o movimento quando a aeronave está parada.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">15. Como são conhecidas as travas externas de superfície de controle?</div>
+            <div class="options">
+                <label><input type="radio" name="q15" value="a"> a) Blocos de madeira canelada</label>
+                <label><input type="radio" name="q15" value="b"> b) Pinos hidráulicos</label>
+                <label><input type="radio" name="q15" value="c"> c) Travas eletromagnéticas</label>
+                <label><input type="radio" name="q15" value="d"> d) Cintas de nylon</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: a) Blocos de madeira canelada</span>
+                <span class="comment">Comentário: Os canais encaixam entre superfícies e estrutura, travando na posição neutra.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">16. O que impede a decolagem com superfícies travadas em alguns sistemas?</div>
+            <div class="options">
+                <label><input type="radio" name="q16" value="a"> a) Sensor de posição</label>
+                <label><input type="radio" name="q16" value="b"> b) Interligação com manetes</label>
+                <label><input type="radio" name="q16" value="c"> c) Alarme sonoro</label>
+                <label><input type="radio" name="q16" value="d"> d) Teste pré-voo obrigatório</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Interligação com manetes</span>
+                <span class="comment">Comentário: Projetos inteligentes impedem avanço das manetes com superfícies travadas.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">17. Qual instrumento é usado para medir tensão de cabos?</div>
+            <div class="options">
+                <label><input type="radio" name="q17" value="a"> a) Dinamômetro</label>
+                <label><input type="radio" name="q17" value="b"> b) Tensiômetro</label>
+                <label><input type="radio" name="q17" value="c"> c) Extensômetro</label>
+                <label><input type="radio" name="q17" value="d"> d) Torquímetro</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Tensiômetro</span>
+                <span class="comment">Comentário: Especificamente desenhado para medir tensão em cabos de aeronaves.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">18. O que são cartas de regulagem de tensão de cabos?</div>
+            <div class="options">
+                <label><input type="radio" name="q18" value="a"> a) Tabelas de torque</label>
+                <label><input type="radio" name="q18" value="b"> b) Gráficos de compensação térmica</label>
+                <label><input type="radio" name="q18" value="c"> c) Diagramas de instalação</label>
+                <label><input type="radio" name="q18" value="d"> d) Esquemas de frenagem</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Gráficos de compensação térmica</span>
+                <span class="comment">Comentário: Compensam variações de temperatura entre estrutura de alumínio e cabos de aço.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">19. Qual transferidor é usado para medir amplitude de superfícies?</div>
+            <div class="options">
+                <label><input type="radio" name="q19" value="a"> a) Transferidor universal de hélice</label>
+                <label><input type="radio" name="q19" value="b"> b) Transferidor digital</label>
+                <label><input type="radio" name="q19" value="c"> c) Transferidor de bolha</label>
+                <label><input type="radio" name="q19" value="d"> d) Transferidor óptico</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: a) Transferidor universal de hélice</span>
+                <span class="comment">Comentário: Adaptado para medir ângulos de superfícies de controle.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">20. O que são pinos de ajuste?</div>
+            <div class="options">
+                <label><input type="radio" name="q20" value="a"> a) Instrumentos de medição</label>
+                <label><input type="radio" name="q20" value="b"> b) Ferramentas de alinhamento</label>
+                <label><input type="radio" name="q20" value="c"> c) Dispositivos de travamento temporário</label>
+                <label><input type="radio" name="q20" value="d"> d) Equipamentos de teste</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Dispositivos de travamento temporário</span>
+                <span class="comment">Comentário: Simplificam o posicionamento neutro durante ajustes.</span>
+            </div>
+        </div>
+        
+        <div class="question-block">
+            <div class="question-text">98. Qual é a consequência de desbalanceamento dinâmico em superfícies de controle?</div>
+            <div class="options">
+                <label><input type="radio" name="q98" value="a"> a) Aumento do arrasto</label>
+                <label><input type="radio" name="q98" value="b"> b) Vibrações e flutter</label>
+                <label><input type="radio" name="q98" value="c"> c) Redução da sustentação</label>
+                <label><input type="radio" name="q98" value="d"> d) Dificuldade de comando</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Vibrações e flutter</span>
+                <span class="comment">Comentário: O desbalanceamento dinâmico pode induzir vibrações que levam ao flutter, podendo causar falha estrutural.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">99. Onde devem ser posicionados os pesos para correção de balanceamento?</div>
+            <div class="options">
+                <label><input type="radio" name="q99" value="a"> a) Atrás da linha central da dobradiça</label>
+                <label><input type="radio" name="q99" value="b"> b) Na ponta da superfície</label>
+                <label><input type="radio" name="q99" value="c"> c) Adiante da linha central da dobradiça</label>
+                <label><input type="radio" name="q99" value="d"> d) No centro de gravidade</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Adiante da linha central da dobradiça</span>
+                <span class="comment">Comentário: Pesos são adicionados à frente da linha da dobradiça para corrigir bordo de fuga pesado.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">100. Qual método NÃO é usado para rebalanceamento de superfícies?</div>
+            <div class="options">
+                <label><input type="radio" name="q100" value="a"> a) Método de cálculo</label>
+                <label><input type="radio" name="q100" value="b"> b) Método de tentativa e erro</label>
+                <label><input type="radio" name="q100" value="c"> c) Método de balança</label>
+                <label><input type="radio" name="q100" value="d"> d) Método de ressonância</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: d) Método de ressonância</span>
+                <span class="comment">Comentário: Os métodos usuais são cálculo, tentativa/erro e balança, não envolvendo ressonância.</span>
+            </div>
+        </div>
+        
+        <h1 class="chapter-title">QUESTÕES CAPÍTULO 3 - ENTELAGEM</h1>
+
+        <div class="question-block">
+            <div class="question-text">1. Qual tecido possui resistência mínima de 80 lbs/pol na urdidura e trama?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_1" value="a"> a) Algodão Tipo A</label>
+                <label><input type="radio" name="q3_1" value="b"> b) Linho padrão</label>
+                <label><input type="radio" name="q3_1" value="c"> c) Dacron médio peso</label>
+                <label><input type="radio" name="q3_1" value="d"> d) Fibra de vidro</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: a) Algodão Tipo A</span>
+                <span class="comment">Comentário: O tecido de algodão Tipo A mercerizado possui resistência mínima de 80 Ibs/pol em ambas as direções, conforme especificação AMS 3806.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">2. Quantos fios por polegada possui o tecido de algodão Tipo A?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_2" value="a"> a) 60-70 fios</label>
+                <label><input type="radio" name="q3_2" value="b"> b) 80-84 fios</label>
+                <label><input type="radio" name="q3_2" value="c"> c) 90-95 fios</label>
+                <label><input type="radio" name="q3_2" value="d"> d) 100-110 fios</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) 80-84 fios</span>
+                <span class="comment">Comentário: O tecido Tipo A possui entre 80 e 84 fios por polegada tanto na urdidura quanto na trama.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">3. Qual tecido NÃO é afetado por umidade, mofo ou produtos químicos?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_3" value="a"> a) Algodão mercerizado</label>
+                <label><input type="radio" name="q3_3" value="b"> b) Linho natural</label>
+                <label><input type="radio" name="q3_3" value="c"> c) Dacron</label>
+                <label><input type="radio" name="q3_3" value="d"> d) Fibra de vidro</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: d) Fibra de vidro</span>
+                <span class="comment">Comentário: A fibra de vidro é completamente imune a esses fatores de deterioração.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">4. O que significa o termo "4 OZ" em tecidos para aeronaves?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_4" value="a"> a) Espessura em milésimos</label>
+                <label><input type="radio" name="q3_4" value="b"> b) Peso em onças por jarda quadrada</label>
+                <label><input type="radio" name="q3_4" value="c"> c) Largura em polegadas</label>
+                <label><input type="radio" name="q3_4" value="d"> d) Comprimento em jardas</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Peso em onças por jarda quadrada</span>
+                <span class="comment">Comentário: Refere-se ao peso do tecido acabado de 4 onças por jarda quadrada.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">5. Qual a resistência aproximada do tecido Dacron heavy-duty?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_5" value="a"> a) 80 lbs/pol</label>
+                <label><input type="radio" name="q3_5" value="b"> b) 96 lbs/pol</label>
+                <label><input type="radio" name="q3_5" value="c"> c) 120 lbs/pol</label>
+                <label><input type="radio" name="q3_5" value="d"> d) 148 lbs/pol</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: d) 148 lbs/pol</span>
+                <span class="comment">Comentário: O Dacron heavy-duty tem resistência de aproximadamente 148 lbs/pol.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">6. O que é a urdidura em um tecido?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_6" value="a"> a) Direção dos fios ao longo do comprimento</label>
+                <label><input type="radio" name="q3_6" value="b"> b) Direção dos fios através da largura</label>
+                <label><input type="radio" name="q3_6" value="c"> c) Direção diagonal do tecido</label>
+                <label><input type="radio" name="q3_6" value="d"> d) Borda do tecido</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: a) Direção dos fios ao longo do comprimento</span>
+                <span class="comment">Comentário: A urdidura corre paralela ao comprimento do tecido.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">7. Qual a função da fita de superfície?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_7" value="a"> a) Reforçar estruturas</label>
+                <label><input type="radio" name="q3_7" value="b"> b) Proteger contra atrito</label>
+                <label><input type="radio" name="q3_7" value="c"> c) Prover acabamento sobre nervuras</label>
+                <label><input type="radio" name="q3_7" value="d"> d) Impermeabilizar costuras</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Prover acabamento sobre nervuras</span>
+                <span class="comment">Comentário: É uma fita de acabamento colada com dope sobre nervuras e junções.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">8. Como devem ser as bordas da fita de superfície para melhor aderência?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_8" value="a"> a) Retas e lisas</label>
+                <label><input type="radio" name="q3_8" value="b"> b) Picotadas ou serrilhadas</label>
+                <label><input type="radio" name="q3_8" value="c"> c) Dobradas e costuradas</label>
+                <label><input type="radio" name="q3_8" value="d"> d) Reforçadas com fio</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Picotadas ou serrilhadas</span>
+                <span class="comment">Comentário: Bordas impregnadas ou picotadas geram melhor aderência à cobertura.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">9. Qual a largura mínima da fita de superfície para bordos de fuga?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_9" value="a"> a) 1 polegada</label>
+                <label><input type="radio" name="q3_9" value="b"> b) 2 polegadas</label>
+                <label><input type="radio" name="q3_9" value="c"> c) 3 polegadas</label>
+                <label><input type="radio" name="q3_9" value="d"> d) 4 polegadas</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) 3 polegadas</span>
+                <span class="comment">Comentário: Para bordos de fuga, usa-se fita com no mínimo 3 polegadas de largura.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">10. O que é a fita de reforço (cadarço) utilizada?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_10" value="a"> a) Sobre nervuras entre tecido e amarração</label>
+                <label><input type="radio" name="q3_10" value="b"> b) Como acabamento superficial</label>
+                <label><input type="radio" name="q3_10" value="c"> c) Para emendas estruturais</label>
+                <label><input type="radio" name="q3_10" value="d"> d) Para reforço de bordos de ataque</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: a) Sobre nervuras entre tecido e amarração</span>
+                <span class="comment">Comentário: Previne rasgo na costura através do tecido durante a lardagem.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">11. Qual tipo de linha é usado para costura à máquina em tecidos de algodão?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_11" value="a"> a) Linha de seda natural</label>
+                <label><input type="radio" name="q3_11" value="b"> b) Linha de algodão torcida para esquerda</label>
+                <label><input type="radio" name="q3_11" value="c"> c) Linha de poliéster</label>
+                <label><input type="radio" name="q3_11" value="d"> d) Linha de fibra de vidro</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Linha de algodão torcida para esquerda</span>
+                <span class="comment">Comentário: Linha de acabamento de seda não alvejada, torcida para esquerda (Z-twist).</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">12. Quantos pontos por polegada são recomendados na costura à máquina?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_12" value="a"> a) 4-6 pontos</label>
+                <label><input type="radio" name="q3_12" value="b"> b) 8-10 pontos</label>
+                <label><input type="radio" name="q3_12" value="c"> c) 12-14 pontos</label>
+                <label><input type="radio" name="q3_12" value="d"> d) 16-18 pontos</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) 8-10 pontos</span>
+                <span class="comment">Comentário: Costura com duas fileiras de pontos, 8-10 pontos por polegada.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">13. Qual nó é usado para amarração de nervuras?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_13" value="a"> a) Nó quadrado</label>
+                <label><input type="radio" name="q3_13" value="b"> b) Nó cego</label>
+                <label><input type="radio" name="q3_13" value="c"> c) Nó Seine modificado</label>
+                <label><input type="radio" name="q3_13" value="d"> d) Nó de pescador</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Nó Seine modificado</span>
+                <span class="comment">Comentário: É o nó padrão para amarração de nervuras em entelagem.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">14. O que significa "S-twist" em linhas de costura?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_14" value="a"> a) Torcida para esquerda</label>
+                <label><input type="radio" name="q3_14" value="b"> b) Torcida para direita</label>
+                <label><input type="radio" name="q3_14" value="c"> c) Sem torção</label>
+                <label><input type="radio" name="q3_14" value="d"> d) Torcida dupla</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Torcida para direita</span>
+                <span class="comment">Comentário: S-twist indica torção para direita, Z-twist para esquerda.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">15. Como devem ser encerados os cordéis de amarração?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_15" value="a"> a) Com parafina pura</label>
+                <label><input type="radio" name="q3_15" value="b"> b) Com cera de abelha sem parafina</label>
+                <label><input type="radio" name="q3_15" value="c"> c) Com graxa de silicone</label>
+                <label><input type="radio" name="q3_15" value="d"> d) Com vaselina</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Com cera de abelha sem parafina</span>
+                <span class="comment">Comentário: A cera não deve exceder 20% do peso do cordel de acabamento.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">16. Qual o método de entelagem preferido para asas?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_16" value="a"> a) Método envelope</label>
+                <label><input type="radio" name="q3_16" value="b"> b) Método cobertura</label>
+                <label><input type="radio" name="q3_16" value="c"> c) Método combinado</label>
+                <label><input type="radio" name="q3_16" value="d"> d) Método sobreposto</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: a) Método envelope</span>
+                <span class="comment">Comentário: O método envelope é preferido por permitir costura majoritariamente à máquina.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">17. No método envelope, como é fechada a abertura?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_17" value="a"> a) Com costura à máquina</label>
+                <label><input type="radio" name="q3_17" value="b"> b) Com cola especial</label>
+                <label><input type="radio" name="q3_17" value="c"> c) Com costura manual</label>
+                <label><input type="radio" name="q3_17" value="d"> d) Com fita adesiva</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Com costura manual</span>
+                <span class="comment">Comentário: O envelope é puxado sobre a asa e a abertura é fechada por costura manual.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">18. Qual a sobreposição mínima do tecido no método de cobertura?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_18" value="a"> a) 1 polegada</label>
+                <label><input type="radio" name="q3_18" value="b"> b) 2 polegadas</label>
+                <label><input type="radio" name="q3_18" value="c"> c) 3 polegadas</label>
+                <label><input type="radio" name="q3_18" value="d"> d) 4 polegadas</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: a) 1 polegada</span>
+                <span class="comment">Comentário: Para aeronaves até 150 mph, superposição mínima de 1 polegada.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">19. Como deve ser o tecido aplicado em relação à linha de voo?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_19" value="a"> a) Urdidura paralela à linha de voo</label>
+                <label><input type="radio" name="q3_19" value="b"> b) Trama paralela à linha de voo</label>
+                <label><input type="radio" name="q3_19" value="c"> c) Viés a 45 graus</label>
+                <label><input type="radio" name="q3_19" value="d"> d) Indiferente à direção</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: a) Urdidura paralela à linha de voo</span>
+                <span class="comment">Comentário: Pode ser aplicado com urdidura ou trama paralela à linha de voo.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">20. O que deve ser aplicado na estrutura antes da entelagem?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_20" value="a"> a) Camada de dope nas áreas de contato</label>
+                <label><input type="radio" name="q3_20" value="b"> b) Tinta epóxi</label>
+                <label><input type="radio" name="q3_20" value="c"> c) Selador de silicone</label>
+                <label><input type="radio" name="q3_20" value="d"> d) Primer de cromato</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: a) Camada de dope nas áreas de contato</span>
+                <span class="comment">Comentário: Garante impermeabilização e melhor adesão do tecido.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">21. Como são protegidos os pontos de atrito na estrutura?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_21" value="a"> a) Com solda pontual</label>
+                <label><input type="radio" name="q3_21" value="b"> b) Com tiras de tecido impermeável</label>
+                <label><input type="radio" name="q3_21" value="c"> c) Com massa de preenchimento</label>
+                <label><input type="radio" name="q3_21" value="d"> d) Com borracha líquida</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Com tiras de tecido impermeável</span>
+                <span class="comment">Comentário: Fitam-se bordas cortantes e cabeças de parafusos que possam desgastar o tecido.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">22. Qual a função da fixação entre nervuras com fita?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_22" value="a"> a) Aumentar a resistência</label>
+                <label><input type="radio" name="q3_22" value="b"> b) Manter alinhamento das nervuras</label>
+                <label><input type="radio" name="q3_22" value="c"> c) Reduzir peso</label>
+                <label><input type="radio" name="q3_22" value="d"> d) Melhorar acabamento</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Manter alinhamento das nervuras</span>
+                <span class="comment">Comentário: Impede torções ou empenos mantendo as nervuras na posição correta.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">23. Quantas camadas de selante são aplicadas em superfícies de compensado?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_23" value="a"> a) Uma camada com pincel</label>
+                <label><input type="radio" name="q3_23" value="b"> b) Duas camadas por mergulho</label>
+                <label><input type="radio" name="q3_23" value="c"> c) Três camadas com spray</label>
+                <label><input type="radio" name="q3_23" value="d"> d) Quatro camadas com rolo</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Duas camadas por mergulho</span>
+                <span class="comment">Comentário: Selante similar MIL-V-6894 diluído a 30%, aplicado em duas camadas.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">24. Qual o tempo de secagem entre camadas de dope no compensado?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_24" value="a"> a) 15 minutos</label>
+                <label><input type="radio" name="q3_24" value="b"> b) 30 minutos</label>
+                <label><input type="radio" name="q3_24" value="c"> c) 45 minutos</label>
+                <label><input type="radio" name="q3_24" value="d"> d) 60 minutos</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) 45 minutos</span>
+                <span class="comment">Comentário: Aguarda-se aproximadamente 45 minutos entre a primeira e segunda camada.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">25. Como é encolhido o tecido de Dacron?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_25" value="a"> a) Com dope encolhedor</label>
+                <label><input type="radio" name="q3_25" value="b"> b) Com água quente</label>
+                <label><input type="radio" name="q3_25" value="c"> c) Com calor controlado</label>
+                <label><input type="radio" name="q3_25" value="d"> d) Com vapor</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Com calor controlado</span>
+                <span class="comment">Comentário: Usa-se aquecedor elétrico a 105°C (225°F) ou refletores de aquecimento.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">26. Qual a temperatura máxima para encolhimento do Dacron?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_26" value="a"> a) 80°C</label>
+                <label><input type="radio" name="q3_26" value="b"> b) 105°C</label>
+                <label><input type="radio" name="q3_26" value="c"> c) 120°C</label>
+                <label><input type="radio" name="q3_26" value="d"> d) 150°C</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) 105°C</span>
+                <span class="comment">Comentário: Temperatura não deve exceder 105°C para não danificar tecido ou estrutura.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">27. Que tipo de dope deve ser usado com Dacron após encolhimento térmico?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_27" value="a"> a) Dope encolhedor</label>
+                <label><input type="radio" name="q3_27" value="b"> b) Dope não encolhedor</label>
+                <label><input type="radio" name="q3_27" value="c"> c) Dope de alta viscosidade</label>
+                <label><input type="radio" name="q3_27" value="d"> d) Dope com plastificador</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Dope não encolhedor</span>
+                <span class="comment">Comentário: Dopes não encolhedores são usados para tensão final após encolhimento térmico.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">28. Quando é aplicada a fita de superfície?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_28" value="a"> a) Antes da primeira camada de dope</label>
+                <label><input type="radio" name="q3_28" value="b"> b) Após a primeira camada de dope</label>
+                <label><input type="radio" name="q3_28" value="c"> c) Antes da segunda camada de dope</label>
+                <label><input type="radio" name="q3_28" value="d"> d) Após a terceira camada de dope</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Antes da segunda camada de dope</span>
+                <span class="comment">Comentário: Aplica-se sobre a primeira camada de dope, antes da segunda.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">29. Como se aplica a fita de superfície?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_29" value="a"> a) Com dope apenas sob a fita</label>
+                <label><input type="radio" name="q3_29" value="b"> b) Com dope sobre e sob a fita</label>
+                <label><input type="radio" name="q3_29" value="c"> c) Com cola de contato</label>
+                <label><input type="radio" name="q3_29" value="d"> d) Com adesivo próprio</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Com dope sobre e sob a fita</span>
+                <span class="comment">Comentário: Aplica-se camada de dope, coloca-se a fita, pressiona-se e aplica-se outra camada sobre.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">30. Qual o espaçamento máximo entre pontos de lardagem para aeronaves acima de 200 mph?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_30" value="a"> a) 1 polegada</label>
+                <label><input type="radio" name="q3_30" value="b"> b) 2 polegadas</label>
+                <label><input type="radio" name="q3_30" value="c"> c) 3 polegadas</label>
+                <label><input type="radio" name="q3_30" value="d"> d) 4 polegadas</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) 2 polegadas</span>
+                <span class="comment">Comentário: Para alta velocidade, espaçamento não deve exceder 2 polegadas.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">31. Onde deve começar a lardagem em uma asa?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_31" value="a"> a) No bordo de fuga</label>
+                <label><input type="radio" name="q3_31" value="b"> b) No bordo de ataque</label>
+                <label><input type="radio" name="q3_31" value="c"> c) No centro da nervura</label>
+                <label><input type="radio" name="q3_31" value="d"> d) Na longarina</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) No bordo de ataque</span>
+                <span class="comment">Comentário: Normalmente inicia no bordo de ataque em direção ao bordo de fuga.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">32. O que são tiras anti-rasgo?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_32" value="a"> a) Reforços sob as tiras de reforço</label>
+                <label><input type="radio" name="q3_32" value="b"> b) Fitam de acabamento</label>
+                <label><input type="radio" name="q3_32" value="c"> c) Proteções contra corrosão</label>
+                <label><input type="radio" name="q3_32" value="d"> d) Selantes de borda</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: a) Reforços sob as tiras de reforço</span>
+                <span class="comment">Comentário: Usadas na área do fluxo da hélice para prevenir rompimento da lardagem.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">33. Qual nó NÃO deve ser usado para unir cordéis?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_33" value="a"> a) Nó enlaçado</label>
+                <label><input type="radio" name="q3_33" value="b"> b) Nó Seine</label>
+                <label><input type="radio" name="q3_33" value="c"> c) Nó quadrado comum</label>
+                <label><input type="radio" name="q3_33" value="d"> d) Nó de amarração</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Nó quadrado comum</span>
+                <span class="comment">Comentário: Tem fraca resistência ao deslizamento e não é recomendado.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">34. Onde são posicionados os nós "tie-off" em aeronaves de asa alta?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_34" value="a"> a) Superfície inferior</label>
+                <label><input type="radio" name="q3_34" value="b"> b) Superfície superior</label>
+                <label><input type="radio" name="q3_34" value="c"> c) Bordo de ataque</label>
+                <label><input type="radio" name="q3_34" value="d"> d) Bordo de fuga</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: a) Superfície inferior</span>
+                <span class="comment">Comentário: Em asa alta, nós na superfície inferior para melhor aerodinâmica.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">35. O que são grometes em entelagem?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_35" value="a"> a) Reforços para drenagem</label>
+                <label><input type="radio" name="q3_35" value="b"> b) Tipo de costura</label>
+                <label><input type="radio" name="q3_35" value="c"> c) Instrumentos de medição</label>
+                <label><input type="radio" name="q3_35" value="d"> d) Ferramentas de corte</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: a) Reforços para drenagem</span>
+                <span class="comment">Comentário: Arruelas de plástico ou metal para orifícios de ventilação e drenagem.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">36. Como são feitos os reparos de rasgos pequenos?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_36" value="a"> a) Com remendo costurado internamente</label>
+                <label><input type="radio" name="q3_36" value="b"> b) Com substituição do painel</label>
+                <label><input type="radio" name="q3_36" value="c"> c) Com costura e remendo dopado</label>
+                <label><input type="radio" name="q3_36" value="d"> d) Com fita adesiva especial</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Com costura e remendo dopado</span>
+                <span class="comment">Comentário: Costuram-se as bordas com ponto "baseball" e aplica-se remendo dopado.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">37. Qual ponto é usado no reparo de rasgos?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_37" value="a"> a) Ponto reto</label>
+                <label><input type="radio" name="q3_37" value="b"> b) Ponto zig-zag</label>
+                <label><input type="radio" name="q3_37" value="c"> c) Ponto "baseball"</label>
+                <label><input type="radio" name="q3_37" value="d"> d) Ponto overlock</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Ponto "baseball"</span>
+                <span class="comment">Comentário: Permite puxar bordas danificadas para posição original.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">38. Qual o tamanho máximo para reparo com remendo costurado internamente?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_38" value="a"> a) 8 polegadas</label>
+                <label><input type="radio" name="q3_38" value="b"> b) 12 polegadas</label>
+                <label><input type="radio" name="q3_38" value="c"> c) 16 polegadas</label>
+                <label><input type="radio" name="q3_38" value="d"> d) 20 polegadas</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) 16 polegadas</span>
+                <span class="comment">Comentário: Pode ser usado em danos não maiores que 16 polegadas em qualquer direção.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">39. Como deve ser a borda do remendo para reparo sem costura?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_39" value="a"> a) Reta e lisa</label>
+                <label><input type="radio" name="q3_39" value="b"> b) Reforçada com fio</label>
+                <label><input type="radio" name="q3_39" value="c"> c) Picotada ou esfiapada</label>
+                <label><input type="radio" name="q3_39" value="d"> d) Dobrada e costurada</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Picotada ou esfiapada</span>
+                <span class="comment">Comentário: Bordas picotadas cerca de 1/4 polegada para melhor adesão.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">40. Quando é necessário amarrar o remendo à nervura?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_40" value="a"> a) Sempre que o remendo for maior que 6 polegadas</label>
+                <label><input type="radio" name="q3_40" value="b"> b) Quando o furo estender sobre uma nervura</label>
+                <label><input type="radio" name="q3_40" value="c"> c) Apenas em superfícies de controle</label>
+                <label><input type="radio" name="q3_40" value="d"> d) Nunca se usa amarração em remendos</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Quando o furo estender sobre uma nervura</span>
+                <span class="comment">Comentário: O remendo deve estender pelo menos 3 polegadas além da nervura e ser amarrado.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">41. Qual a principal causa de deterioração de tecidos em áreas industriais?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_41" value="a"> a) Dióxido de carbono</label>
+                <label><input type="radio" name="q3_41" value="b"> b) Monóxido de carbono</label>
+                <label><input type="radio" name="q3_41" value="c"> c) Dióxido de enxofre</label>
+                <label><input type="radio" name="q3_41" value="d"> d) Óxidos de nitrogênio</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Dióxido de enxofre</span>
+                <span class="comment">Comentário: Combina com oxigênio e umidade formando ácido sulfúrico que ataca tecidos.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">42. O que é usado para controlar o desenvolvimento de mofo em tecidos?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_42" value="a"> a) Pigmentos especiais</label>
+                <label><input type="radio" name="q3_42" value="b"> b) Inibidores de fungos</label>
+                <label><input type="radio" name="q3_42" value="c"> c) Camadas extras de dope</label>
+                <label><input type="radio" name="q3_42" value="d"> d) Ventilação forçada</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Inibidores de fungos</span>
+                <span class="comment">Comentário: Misturados com dope e aplicados na primeira camada.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">43. Por que não se deve pulverizar dope com fungicidas?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_43" value="a"> a) Perde eficácia</label>
+                <label><input type="radio" name="q3_43" value="b"> b) Entope os bicos</label>
+                <label><input type="radio" name="q3_43" value="c"> c) Contém substâncias venenosas</label>
+                <label><input type="radio" name="q3_43" value="d"> d) Altera a cor</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Contém substâncias venenosas</span>
+                <span class="comment">Comentário: A pulverização dispersa partículas tóxicas no ar.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">44. O que causa rápida deterioração por dopes ácidos?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_44" value="a"> a) Reações químicas em estocagem</label>
+                <label><input type="radio" name="q3_44" value="b"> b) Aplicação em temperatura errada</label>
+                <label><input type="radio" name="q3_44" value="c"> c) Mistura com thinner inadequado</label>
+                <label><input type="radio" name="q3_44" value="d"> d) Contaminação com umidade</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: a) Reações químicas em estocagem</span>
+                <span class="comment">Comentário: Estocagem sob calor ou frio extremo aumenta acidez além dos limites seguros.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">45. Como os raios ultravioleta são bloqueados no tecido?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_45" value="a"> a) Com camadas espessas de dope</label>
+                <label><input type="radio" name="q3_45" value="b"> b) Com pigmentos de alumínio</label>
+                <label><input type="radio" name="q3_45" value="c"> c) Com filtros UV no dope</label>
+                <label><input type="radio" name="q3_45" value="d"> d) Com acabamento transparente</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Com pigmentos de alumínio</span>
+                <span class="comment">Comentário: Alumínio em pó adicionado em duas camadas de dope bloqueia UV.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">46. Qual equipamento é usado para teste rápido de tecido?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_46" value="a"> a) Tensiômetro</label>
+                <label><input type="radio" name="q3_46" value="b"> b) Punção de teste</label>
+                <label><input type="radio" name="q3_46" value="c"> c) Durômetro</label>
+                <label><input type="radio" name="q3_46" value="d"> d) Extensômetro</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Punção de teste</span>
+                <span class="comment">Comentário: Fornece indicação geral do grau de deterioração sem cortar amostras.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">47. O que indica o êmbolo colorido no punção de teste?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_47" value="a"> a) Espessura do tecido</label>
+                <label><input type="radio" name="q3_47" value="b"> b) Condição do tecido</label>
+                <label><input type="radio" name="q3_47" value="c"> c) Tipo de material</label>
+                <label><input type="radio" name="q3_47" value="d"> d) Idade do tecido</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Condição do tecido</span>
+                <span class="comment">Comentário: Comparado com carta do fabricante para determinar condição.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">48. Qual o tamanho do furo feito pelo punção de teste?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_48" value="a"> a) 1/8 polegada</label>
+                <label><input type="radio" name="q3_48" value="b"> b) 1/4 polegada</label>
+                <label><input type="radio" name="q3_48" value="c"> c) 1/2 polegada</label>
+                <label><input type="radio" name="q3_48" value="d"> d) 3/4 polegada</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) 1/2 polegada</span>
+                <span class="comment">Comentário: Aproximadamente 1/2 polegada de diâmetro, facilmente reparável.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">49. Como é feito o teste de tensão do tecido sem dope?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_49" value="a"> a) Com amostra de 1/2 polegada de largura</label>
+                <label><input type="radio" name="q3_49" value="b"> b) Com amostra de 1 polegada de largura</label>
+                <label><input type="radio" name="q3_49" value="c"> c) Com amostra de 2 polegadas de largura</label>
+                <label><input type="radio" name="q3_49" value="d"> d) Com amostra circular</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Com amostra de 1 polegada de largura</span>
+                <span class="comment">Comentário: Após desfiar bordas, reduz para 1 polegada para teste padrão.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">50. Quando o tecido é considerado não aeronavegável?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_50" value="a"> a) Abaixo de 90% da resistência original</label>
+                <label><input type="radio" name="q3_50" value="b"> b) Abaixo de 80% da resistência original</label>
+                <label><input type="radio" name="q3_50" value="c"> c) Abaixo de 70% da resistência original</label>
+                <label><input type="radio" name="q3_50" value="d"> d) Abaixo de 60% da resistência original</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: c) Abaixo de 70% da resistência original</span>
+                <span class="comment">Comentário: Deterioração máxima permitida é 30%, portanto mínimo 70% da resistência original.</span>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="question-text">51. Qual a função principal do dope no tecido?</div>
+            <div class="options">
+                <label><input type="radio" name="q3_51" value="a"> a) Colorir a superfície</label>
+                <label><input type="radio" name="q3_51" value="b"> b) Esticar e impermeabilizar</label>
+                <label><input type="radio" name="q3_51" value="c"> c) Aumentar a resistência</label>
+                <label><input type="radio" name="q3_51" value="d"> d) Reduzir o peso</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: b) Esticar e impermeabilizar</span>
+                <span class="comment">Comentário: Além de proteger contra intempéries e dar acabamento liso.</span>
+            </div>
+        </div>
+        
+        <div class="question-block">
+            <div class="question-text">52. Qual a temperatura... (Questão incompleta no documento original)</div>
+            <div class="options">
+                <label><input type="radio" name="q3_52" value="a"> a) Opção indisponível</label>
+                <label><input type="radio" name="q3_52" value="b"> b) Opção indisponível</label>
+                <label><input type="radio" name="q3_52" value="c"> c) Opção indisponível</label>
+                <label><input type="radio" name="q3_52" value="d"> d) Opção indisponível</label>
+            </div>
+            <div class="answer-info">
+                <span class="correct-answer">Resposta: Indisponível</span>
+                <span class="comment">Comentário: O texto da questão está incompleto no documento original.</span>
+            </div>
+        </div>
+
     </div>
-
-    <!-- Continuar com as demais questões do Capítulo 1 -->
-    <!-- Questões 2 a 100 do Capítulo 1 aqui -->
-
-    <a href="#" class="back-to-top">↑</a>
-
-    <script>
-        // Adicionar funcionalidade para o botão "Voltar ao topo"
-        document.querySelector('.back-to-top').addEventListener('click', function(e) {
-            e.preventDefault();
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        });
-    </script>
 </body>
 </html>
